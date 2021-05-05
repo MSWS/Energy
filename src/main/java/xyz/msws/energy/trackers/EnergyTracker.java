@@ -74,12 +74,12 @@ public abstract class EnergyTracker implements Listener {
             if (ap.contains(ep)) {
                 if (!ep.update(player, old, now))
                     continue;
-                MSG.tell(player, "You now have: %s", ep.getDescription(old));
+                MSG.tell(player, "You now have: %s", ep.getDescription(now));
                 continue;
             }
-            MSG.tell(player, "You now have: %s", ep.getDescription(old));
+            MSG.tell(player, "You now have: %s", ep.getDescription(now));
             ap.add(ep);
-            ep.apply(player.getUniqueId());
+            ep.apply(player.getUniqueId(), now);
         }
         active.put(player.getUniqueId(), ap);
     }

@@ -13,12 +13,11 @@ public class MovementPenalty extends EnergyPenalty {
     }
 
     @Override
-    public void apply(Entity ent) {
+    public void apply(Entity ent, double energy) {
         if (!(ent instanceof Player))
             return;
         Player player = (Player) ent;
-        double m = plugin.getTracker().getPlayer(player).getEnergy() / plugin.getEConfig().getMax();
-        player.setWalkSpeed(0.2f * getSpeed(m));
+        player.setWalkSpeed(0.2f * getSpeed(energy));
     }
 
     @Override
@@ -31,12 +30,16 @@ public class MovementPenalty extends EnergyPenalty {
 
     @Override
     public boolean update(Entity ent, double old, double now) {
-        return getSpeed(old) != getSpeed(now);
+        if (getSpeed(old) == getSpeed(now))
+            return false;
+        Player player = (Player) ent;
+        player.setWalkSpeed(0.2f * getSpeed(now));
+        return true;
     }
 
     @Override
     public String getDescription(double prog) {
-        return String.format("%d%% Movement Speed", (int) (getSpeed(prog) * 100.0));
+        return String.format("%d%% Movement Speed", (int) Math.round(getSpeed(prog) * 100.0));
     }
 
     private float getSpeed(double prog) {

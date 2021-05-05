@@ -14,11 +14,11 @@ public class HungerPenalty extends EnergyPenalty {
     }
 
     @Override
-    public void apply(Entity ent) {
+    public void apply(Entity ent, double energy) {
         if (!(ent instanceof LivingEntity))
             return;
         LivingEntity player = (LivingEntity) ent;
-        int level = getHungerLevel(plugin.getTracker().getPlayer(player).getEnergy() / plugin.getEConfig().getMax());
+        int level = getHungerLevel(energy);
         if (level == 0)
             return;
 

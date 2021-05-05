@@ -17,11 +17,11 @@ public abstract class EnergyPenalty {
         this.tracker = plugin.getTracker();
     }
 
-    public void apply(UUID uuid) {
+    public void apply(UUID uuid, double energy) {
         Entity ent = Bukkit.getEntity(uuid);
         if (ent == null)
             return;
-        apply(ent);
+        apply(ent, energy);
     }
 
     public double getMin() {
@@ -32,7 +32,7 @@ public abstract class EnergyPenalty {
         return max;
     }
 
-    public abstract void apply(Entity ent);
+    public abstract void apply(Entity ent, double energy);
 
     public boolean update(Entity ent, double old, double now) {
         return false;

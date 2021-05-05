@@ -52,7 +52,7 @@ public abstract class EnergyPlayer {
     }
 
     public void addPenalty(EnergyPenalty penalty, long time) {
-        penalty.apply(uuid);
+        penalty.apply(uuid, getEnergy());
         penalties.put(penalty, time);
     }
 

@@ -11,12 +11,10 @@ import xyz.msws.energy.chargers.FoodCharger;
 import xyz.msws.energy.chargers.SleepCharger;
 import xyz.msws.energy.data.CorePlayer;
 import xyz.msws.energy.data.EnergyPlayer;
-import xyz.msws.energy.penalties.costs.CraftCost;
-import xyz.msws.energy.penalties.costs.MoveCost;
+import xyz.msws.energy.penalties.costs.*;
 import xyz.msws.energy.penalties.penalties.BlindnessPenalty;
 import xyz.msws.energy.penalties.penalties.HungerPenalty;
 import xyz.msws.energy.penalties.penalties.MovementPenalty;
-import xyz.msws.energy.utils.MSG;
 
 import java.util.UUID;
 
@@ -41,13 +39,16 @@ public class CoreTracker extends EnergyTracker {
         PersistentDataContainer container = p.getPersistentDataContainer();
         double e = getPlayer(p).getEnergy();
         container.set(key, PersistentDataType.DOUBLE, e);
-        MSG.tell(p, "Set your PDC to %.2f", e);
     }
 
     @Override
     protected void addModifiers() {
         addModifier(new MoveCost(plugin));
         addModifier(new CraftCost(plugin));
+        addModifier(new BlockCost(plugin));
+        addModifier(new SmeltCost(plugin));
+        addModifier(new CombatCost(plugin));
+
         addModifier(new FoodCharger(plugin));
         addModifier(new SleepCharger(plugin));
     }
