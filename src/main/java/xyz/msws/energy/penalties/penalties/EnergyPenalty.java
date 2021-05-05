@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public abstract class EnergyPenalty {
     protected double min, max;
-    private EnergyPlugin plugin;
+    protected EnergyPlugin plugin;
     protected EnergyTracker tracker;
 
     public EnergyPenalty(EnergyPlugin plugin) {
@@ -35,4 +35,6 @@ public abstract class EnergyPenalty {
     abstract void apply(Entity ent);
 
     abstract void remove(Entity uuid);
+
+    abstract String getDescription(double prog);
 }
