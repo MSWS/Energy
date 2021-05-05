@@ -1,7 +1,9 @@
 package xyz.msws.energy.data;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.msws.energy.EnergyPlugin;
 import xyz.msws.energy.events.PlayerEnergyModifyEvent;
@@ -31,6 +33,10 @@ public class CorePlayer extends EnergyPlayer {
 
     @Override
     public void modEnergy(EnergyModifier cost, double amo) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null && plugin.getEConfig().getIgnoreCreative() && player.getGameMode() == GameMode.CREATIVE)
+            return;
+
         PlayerEnergyModifyEvent event = new PlayerEnergyModifyEvent(this, cost, amo);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled())

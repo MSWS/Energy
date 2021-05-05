@@ -10,6 +10,7 @@ public abstract class EnergyConfig {
     protected double max, defEnergy;
     protected List<CostType> costs = new ArrayList<>();
     protected EnergyPlugin plugin;
+    protected boolean ignoreCreative;
 
     public EnergyConfig(EnergyPlugin plugin) {
         this.plugin = plugin;
@@ -27,6 +28,14 @@ public abstract class EnergyConfig {
 
     public double getDefault() {
         return defEnergy;
+    }
+
+    public boolean getIgnoreCreative() {
+        return ignoreCreative;
+    }
+
+    public void setIgnoreCreative(boolean ic) {
+        this.ignoreCreative = ic;
     }
 
     public void setMax(double max) {

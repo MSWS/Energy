@@ -30,6 +30,7 @@ public class CoreConfig extends EnergyConfig {
         this.config = YamlConfiguration.loadConfiguration(file);
         this.max = config.getDouble("MaxEnergy", 100);
         this.defEnergy = config.getDouble("DefaultEnergy", 100);
+        this.ignoreCreative = config.getBoolean("IgnoreCreative", true);
         List<String> costStrings = config.getStringList("Costs");
         costStrings.forEach(c -> costs.add(CostType.fromString(c)));
     }
@@ -38,6 +39,7 @@ public class CoreConfig extends EnergyConfig {
     public void save() {
         config.set("MaxEnergy", max);
         config.set("DefaultEnergy", defEnergy);
+        config.set("IgnoreCreative", ignoreCreative);
         List<String> cs = new ArrayList<>();
         costs.forEach(c -> cs.add(c.toString()));
         config.set("Costs", cs);
@@ -53,5 +55,6 @@ public class CoreConfig extends EnergyConfig {
         this.max = 100;
         this.defEnergy = 100;
         this.costs = new ArrayList<>(Arrays.asList(CostType.values()));
+        this.ignoreCreative = true;
     }
 }

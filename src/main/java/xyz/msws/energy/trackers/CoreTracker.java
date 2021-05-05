@@ -48,6 +48,7 @@ public class CoreTracker extends EnergyTracker {
         addModifier(new BlockCost(plugin));
         addModifier(new SmeltCost(plugin));
         addModifier(new CombatCost(plugin));
+        addModifier(new RegenCost(plugin));
 
         addModifier(new FoodCharger(plugin));
         addModifier(new SleepCharger(plugin));
