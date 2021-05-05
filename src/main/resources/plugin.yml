@@ -1,0 +1,9 @@
+name: Energy
+api-version: 1.16
+author: MSWS
+main: xyz.msws.energy.EnergyCore
+version: ALPHA-0.0.1
+commands:
+  energy:
+    description: Core command for energy management
+    usage: /<command> [subcommands]
