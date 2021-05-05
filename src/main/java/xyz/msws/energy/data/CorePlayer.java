@@ -2,21 +2,31 @@ package xyz.msws.energy.data;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.scheduler.BukkitRunnable;
+import xyz.msws.energy.EnergyPlugin;
 import xyz.msws.energy.events.PlayerEnergyModifyEvent;
 import xyz.msws.energy.events.PlayerEnergySetEvent;
 import xyz.msws.energy.representation.Medium;
 import xyz.msws.energy.representation.messengers.Messenger;
 import xyz.msws.energy.trackers.EnergyModifier;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 public class CorePlayer extends EnergyPlayer {
-    public CorePlayer(EnergyConfig config, UUID uuid) {
-        super(config, uuid);
+    private final Map<Long, Double> bars = new HashMap<>();
+
+    private final EnergyPlugin plugin;
+
+    public CorePlayer(EnergyPlugin plugin, UUID uuid) {
+        super(plugin.getEConfig(), uuid);
+        this.plugin = plugin;
     }
 
-    public CorePlayer(EnergyConfig config, Entity player) {
-        this(config, player.getUniqueId());
+    public CorePlayer(EnergyPlugin plugin, Entity player) {
+        this(plugin, player.getUniqueId());
     }
 
     @Override
@@ -26,6 +36,37 @@ public class CorePlayer extends EnergyPlayer {
         if (event.isCancelled())
             return;
         amo = event.getChange();
+
+        if (amo > 0) {
+            long time = 0;
+            double step = .01;
+            for (double d = 0; d < amo; d += step) {
+                double ep = (this.energy + amo + d) / plugin.getEConfig().getMax();
+                bars.put(time, step);
+                time += 10000.0 * step * ep;
+            }
+
+            new BukkitRunnable() {
+                final long start = System.currentTimeMillis();
+
+                @Override
+                public void run() {
+                    Iterator<Map.Entry<Long, Double>> it = bars.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry<Long, Double> add = it.next();
+                        if (System.currentTimeMillis() - start < add.getKey())
+                            continue;
+                        CorePlayer.this.energy += add.getValue();
+                        CorePlayer.this.energy = Math.max(Math.min(CorePlayer.this.energy, config.getMax()), 0);
+                        updateMessenger();
+                        it.remove();
+                    }
+                    if (bars.entrySet().isEmpty())
+                        this.cancel();
+                }
+            }.runTaskTimer(plugin, 0, 1);
+            return;
+        }
 
         this.energy += amo;
         this.energy = Math.max(Math.min(this.energy, config.getMax()), 0);

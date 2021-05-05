@@ -69,7 +69,7 @@ public class CoreTracker extends EnergyTracker {
         if (players.containsKey(uuid))
             return players.get(uuid);
 
-        EnergyPlayer player = new CorePlayer(plugin.getEConfig(), uuid);
+        EnergyPlayer player = new CorePlayer(plugin, uuid);
         PersistentDataContainer container = ent.getPersistentDataContainer();
         if (!container.has(key, PersistentDataType.DOUBLE)) {
             container.set(key, PersistentDataType.DOUBLE, plugin.getEConfig().getDefault());

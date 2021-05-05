@@ -32,7 +32,7 @@ public class CombatCost extends EnergyModifier {
         if (!(event.getEntity() instanceof Player))
             return;
         Player player = (Player) event.getEntity();
-        tracker.getPlayer(player).modEnergy(this, CostType.HURT.getCost());
+        tracker.getPlayer(player).modEnergy(this, -CostType.HURT.getCost());
     }
 
     @EventHandler
@@ -40,7 +40,7 @@ public class CombatCost extends EnergyModifier {
         if (!(event.getDamager() instanceof Player))
             return;
         Player player = (Player) event.getDamager();
-        tracker.getPlayer(player).modEnergy(this, CostType.DAMAGING.getCost());
+        tracker.getPlayer(player).modEnergy(this, -CostType.DAMAGING.getCost());
     }
 
     @EventHandler

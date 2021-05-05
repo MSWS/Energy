@@ -25,6 +25,6 @@ public class CraftCost extends EnergyModifier {
     @EventHandler
     public void onCraft(CraftItemEvent event) {
         Player player = (Player) event.getWhoClicked();
-        tracker.getPlayer(player).modEnergy(this, CostType.CRAFTING.getCost());
+        tracker.getPlayer(player).modEnergy(this, -CostType.CRAFTING.getCost());
     }
 }
