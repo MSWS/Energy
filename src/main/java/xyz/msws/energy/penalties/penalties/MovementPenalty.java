@@ -13,7 +13,7 @@ public class MovementPenalty extends EnergyPenalty {
     }
 
     @Override
-    void apply(Entity ent) {
+    public void apply(Entity ent) {
         if (!(ent instanceof Player))
             return;
         Player player = (Player) ent;
@@ -22,7 +22,7 @@ public class MovementPenalty extends EnergyPenalty {
     }
 
     @Override
-    void remove(Entity ent) {
+    public void remove(Entity ent) {
         if (!(ent instanceof Player))
             return;
         Player player = (Player) ent;
@@ -30,8 +30,13 @@ public class MovementPenalty extends EnergyPenalty {
     }
 
     @Override
-    String getDescription(double prog) {
-        return String.format("%d%% Movement Speed", (int) getSpeed(prog) * 100);
+    public boolean update(Entity ent, double old, double now) {
+        return getSpeed(old) != getSpeed(now);
+    }
+
+    @Override
+    public String getDescription(double prog) {
+        return String.format("%d%% Movement Speed", (int) (getSpeed(prog) * 100.0));
     }
 
     private float getSpeed(double prog) {
@@ -41,6 +46,8 @@ public class MovementPenalty extends EnergyPenalty {
             spd = .9f;
         if (prog < .5)
             spd = .8f;
+        if (prog < .3)
+            spd = .5f;
         return spd;
     }
 }

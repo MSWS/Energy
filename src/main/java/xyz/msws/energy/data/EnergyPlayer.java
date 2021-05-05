@@ -20,6 +20,10 @@ public abstract class EnergyPlayer {
         this.uuid = uuid;
     }
 
+    public UUID getPlayer() {
+        return uuid;
+    }
+
     public Map<EnergyPenalty, Long> getPenalties() {
         return penalties;
     }

@@ -1,6 +1,7 @@
 package xyz.msws.energy;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.msws.energy.commands.EnergyCommand;
 import xyz.msws.energy.data.CoreConfig;
 import xyz.msws.energy.data.EnergyConfig;
 import xyz.msws.energy.trackers.CoreTracker;
@@ -18,6 +19,8 @@ public class EnergyCore extends JavaPlugin implements EnergyPlugin {
         config.load();
         tracker = new CoreTracker(this);
         tracker.load();
+
+        getCommand("energy").setExecutor(new EnergyCommand(this));
     }
 
     @Override

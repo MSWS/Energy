@@ -36,6 +36,10 @@ public class PlayerEnergyModifyEvent extends PlayerEnergyEvent implements Cancel
         return handler;
     }
 
+    public static HandlerList getHandlerList() {
+        return handler;
+    }
+
     @Override
     public boolean isCancelled() {
         return cancel;

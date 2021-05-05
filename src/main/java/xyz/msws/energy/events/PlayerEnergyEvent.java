@@ -20,4 +20,8 @@ public class PlayerEnergyEvent extends Event {
     public HandlerList getHandlers() {
         return handler;
     }
+
+    public static HandlerList getHandlerList() {
+        return handler;
+    }
 }

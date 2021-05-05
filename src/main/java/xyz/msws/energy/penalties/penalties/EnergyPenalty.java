@@ -32,9 +32,13 @@ public abstract class EnergyPenalty {
         return max;
     }
 
-    abstract void apply(Entity ent);
+    public abstract void apply(Entity ent);
 
-    abstract void remove(Entity uuid);
+    public boolean update(Entity ent, double old, double now) {
+        return false;
+    }
 
-    abstract String getDescription(double prog);
+    public abstract void remove(Entity ent);
+
+    public abstract String getDescription(double prog);
 }

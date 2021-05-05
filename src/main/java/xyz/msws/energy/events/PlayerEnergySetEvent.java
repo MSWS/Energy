@@ -4,14 +4,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import xyz.msws.energy.data.EnergyPlayer;
 
-public class PlayerEnergyChangeEvent extends PlayerEnergyEvent implements Cancellable {
+public class PlayerEnergySetEvent extends PlayerEnergyEvent implements Cancellable {
 
     private static final HandlerList handler = new HandlerList();
 
     private double change;
     private boolean cancel = false;
 
-    public PlayerEnergyChangeEvent(EnergyPlayer player, double change) {
+    public PlayerEnergySetEvent(EnergyPlayer player, double change) {
         super(player);
         this.change = change;
     }
@@ -26,6 +26,10 @@ public class PlayerEnergyChangeEvent extends PlayerEnergyEvent implements Cancel
 
     @Override
     public HandlerList getHandlers() {
+        return handler;
+    }
+
+    public static HandlerList getHandlerList() {
         return handler;
     }
 
