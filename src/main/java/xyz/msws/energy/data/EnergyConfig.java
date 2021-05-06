@@ -9,6 +9,7 @@ import java.util.List;
 public abstract class EnergyConfig {
     protected double max, defEnergy;
     protected List<CostType> costs = new ArrayList<>();
+    protected List<Capsule<PotionPenaltyData>> potions = new ArrayList<>();
     protected EnergyPlugin plugin;
     protected boolean ignoreCreative;
 
@@ -32,6 +33,14 @@ public abstract class EnergyConfig {
 
     public boolean getIgnoreCreative() {
         return ignoreCreative;
+    }
+
+    public List<Capsule<PotionPenaltyData>> getPotions() {
+        return potions;
+    }
+
+    public void setPotions(List<Capsule<PotionPenaltyData>> data) {
+        this.potions = data;
     }
 
     public void setIgnoreCreative(boolean ic) {

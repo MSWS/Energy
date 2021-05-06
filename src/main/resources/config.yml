@@ -1,0 +1,36 @@
+MaxEnergy: 100.0
+DefaultEnergy: 100.0
+Costs:
+  - WALKING:500.0
+  - SPRINTING:230.0
+  - JUMPING:220.0
+  - SPRINT_JUMP:180.0
+  - SWIMMING:120.0
+  - DAMAGING:200.0
+  - HURT:160.0
+  - ARCHERY:80.0
+  - THROWING:200.0
+  - CROUCH_WALK:450.0
+  - CROUCH_JUMP:400.0
+  - ELYTRA:350.0
+  - BLOCK_BREAK:1
+  - BLOCK_PLACE:180.0
+  - COOKING:90.0
+  - CRAFTING:80.0
+  - ROWING:170.0
+  - RIDING:250.0
+  - FALLING:600.0
+Penalties:
+  Potions:
+    HUNGER:
+      Ranges: [ 60, 50, 30, 20, 10, 0 ]
+      Durations: [ -1, -1, -1, -1, -1 ]
+      Amplifiers: [ 1, 2, 3, 4, 5 ]
+    BLINDNESS:
+      Max: 10
+    SLOW:
+      Ranges: [ 70, 50, 30, 15, 0 ]
+      Mins: [ 50, 30, 15, 0 ]
+      Maxs: [ 70, 50, 30, 15 ]
+    WEAKNESS:
+      Max: 30

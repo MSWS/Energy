@@ -1,6 +1,5 @@
 package xyz.msws.energy.penalties.penalties;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -10,33 +9,31 @@ public class HungerPenalty extends EnergyPenalty {
     public HungerPenalty(EnergyPlugin plugin) {
         super(plugin);
         min = 0;
-        max = .5;
+        max = .6;
     }
 
     @Override
-    public void apply(Entity ent, double energy) {
-        if (!(ent instanceof LivingEntity))
-            return;
-        LivingEntity player = (LivingEntity) ent;
+    public void apply(LivingEntity ent, double energy) {
         int level = getHungerLevel(energy);
         if (level == 0)
             return;
 
         PotionEffect eff = new PotionEffect(PotionEffectType.HUNGER, Integer.MAX_VALUE, level - 1);
-        player.addPotionEffect(eff);
+        ent.addPotionEffect(eff);
     }
 
     @Override
-    public void remove(Entity ent) {
-        if (!(ent instanceof LivingEntity))
-            return;
-        LivingEntity player = (LivingEntity) ent;
-        player.removePotionEffect(PotionEffectType.HUNGER);
+    public void remove(LivingEntity ent) {
+        ent.removePotionEffect(PotionEffectType.HUNGER);
     }
 
     @Override
-    public boolean update(Entity ent, double old, double now) {
-        return getHungerLevel(old) != getHungerLevel(now);
+    public boolean update(LivingEntity ent, double old, double now) {
+        if (getHungerLevel(old) == getHungerLevel(now))
+            return false;
+        remove(ent);
+        apply(ent, now);
+        return true;
     }
 
     @Override
@@ -46,10 +43,16 @@ public class HungerPenalty extends EnergyPenalty {
 
     private int getHungerLevel(double prog) {
         int level = 0;
-        if (prog <= .5)
+        if (prog <= .6)
             level = 1;
-        if (prog < .2)
+        if (prog < .5)
             level = 2;
+        if (prog < .3)
+            level = 3;
+        if (prog < .2)
+            level = 4;
+        if (prog < .1)
+            level = 5;
         return level;
     }
 }

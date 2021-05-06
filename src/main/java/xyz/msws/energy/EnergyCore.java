@@ -15,10 +15,11 @@ public class EnergyCore extends JavaPlugin implements EnergyPlugin {
 
     @Override
     public void onEnable() {
-        config = new CoreConfig(this, new File(getDataFolder(), "config.yml"));
-        config.load();
         tracker = new CoreTracker(this);
         tracker.load();
+        config = new CoreConfig(this, new File(getDataFolder(), "config.yml"));
+        config.load();
+
 
         getCommand("energy").setExecutor(new EnergyCommand(this));
     }

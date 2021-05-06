@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.msws.energy.EnergyPlugin;
 import xyz.msws.energy.data.EnergyPlayer;
 import xyz.msws.energy.events.PlayerEnergyModifyEvent;
+import xyz.msws.energy.events.PlayerEnergySetEvent;
 import xyz.msws.energy.penalties.penalties.EnergyPenalty;
 import xyz.msws.energy.utils.MSG;
 
@@ -51,17 +52,28 @@ public abstract class EnergyTracker implements Listener {
         unload(event.getPlayer());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onChange(PlayerEnergyModifyEvent event) {
-        if (event.isCancelled())
-            return;
         Player player = Bukkit.getPlayer(event.getPlayer().getPlayer());
         if (player == null)
             return;
         double energy = event.getPlayer().getEnergy();
         double old = energy / plugin.getEConfig().getMax(), now = (energy + event.getChange()) / plugin.getEConfig().getMax();
-        List<EnergyPenalty> ap = active.getOrDefault(player.getUniqueId(), new ArrayList<>());
+        updatePenalties(player, old, now);
+    }
 
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onSet(PlayerEnergySetEvent event) {
+        Player player = Bukkit.getPlayer(event.getPlayer().getPlayer());
+        if (player == null)
+            return;
+        double energy = event.getPlayer().getEnergy();
+        double old = energy / plugin.getEConfig().getMax(), now = (event.getChange()) / plugin.getEConfig().getMax();
+        updatePenalties(player, old, now);
+    }
+
+    private void updatePenalties(Player player, double old, double now) {
+        List<EnergyPenalty> ap = active.getOrDefault(player.getUniqueId(), new ArrayList<>());
         for (EnergyPenalty ep : penalties) {
             if (old > ep.getMax() || old < ep.getMin()) {
                 if (!ap.contains(ep))

@@ -1,6 +1,6 @@
 package xyz.msws.energy.penalties.penalties;
 
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import xyz.msws.energy.EnergyPlugin;
 
@@ -13,7 +13,7 @@ public class MovementPenalty extends EnergyPenalty {
     }
 
     @Override
-    public void apply(Entity ent, double energy) {
+    public void apply(LivingEntity ent, double energy) {
         if (!(ent instanceof Player))
             return;
         Player player = (Player) ent;
@@ -21,7 +21,7 @@ public class MovementPenalty extends EnergyPenalty {
     }
 
     @Override
-    public void remove(Entity ent) {
+    public void remove(LivingEntity ent) {
         if (!(ent instanceof Player))
             return;
         Player player = (Player) ent;
@@ -29,11 +29,10 @@ public class MovementPenalty extends EnergyPenalty {
     }
 
     @Override
-    public boolean update(Entity ent, double old, double now) {
+    public boolean update(LivingEntity ent, double old, double now) {
         if (getSpeed(old) == getSpeed(now))
             return false;
-        Player player = (Player) ent;
-        player.setWalkSpeed(0.2f * getSpeed(now));
+        apply(ent, now);
         return true;
     }
 

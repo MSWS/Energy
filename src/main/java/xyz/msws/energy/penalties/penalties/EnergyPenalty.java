@@ -2,6 +2,7 @@ package xyz.msws.energy.penalties.penalties;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import xyz.msws.energy.EnergyPlugin;
 import xyz.msws.energy.trackers.EnergyTracker;
 
@@ -21,7 +22,9 @@ public abstract class EnergyPenalty {
         Entity ent = Bukkit.getEntity(uuid);
         if (ent == null)
             return;
-        apply(ent, energy);
+        if (!(ent instanceof LivingEntity))
+            throw new IllegalArgumentException(ent.getType() + " is not a LivingEntity");
+        apply((LivingEntity) ent, energy);
     }
 
     public double getMin() {
@@ -32,13 +35,13 @@ public abstract class EnergyPenalty {
         return max;
     }
 
-    public abstract void apply(Entity ent, double energy);
+    public abstract void apply(LivingEntity ent, double energy);
 
-    public boolean update(Entity ent, double old, double now) {
+    public boolean update(LivingEntity ent, double old, double now) {
         return false;
     }
 
-    public abstract void remove(Entity ent);
+    public abstract void remove(LivingEntity ent);
 
     public abstract String getDescription(double prog);
 }

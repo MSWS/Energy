@@ -12,9 +12,7 @@ import xyz.msws.energy.chargers.SleepCharger;
 import xyz.msws.energy.data.CorePlayer;
 import xyz.msws.energy.data.EnergyPlayer;
 import xyz.msws.energy.penalties.costs.*;
-import xyz.msws.energy.penalties.penalties.BlindnessPenalty;
-import xyz.msws.energy.penalties.penalties.HungerPenalty;
-import xyz.msws.energy.penalties.penalties.MovementPenalty;
+import xyz.msws.energy.penalties.penalties.ArcheryPenalty;
 
 import java.util.UUID;
 
@@ -56,9 +54,7 @@ public class CoreTracker extends EnergyTracker {
 
     @Override
     protected void addPenalties() {
-        addPenalty(new MovementPenalty(plugin));
-        addPenalty(new BlindnessPenalty(plugin));
-        addPenalty(new HungerPenalty(plugin));
+        addPenalty(new ArcheryPenalty(plugin));
     }
 
     @Override

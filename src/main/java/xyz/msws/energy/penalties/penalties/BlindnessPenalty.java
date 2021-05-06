@@ -1,6 +1,5 @@
 package xyz.msws.energy.penalties.penalties;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -14,19 +13,13 @@ public class BlindnessPenalty extends EnergyPenalty {
     }
 
     @Override
-    public void apply(Entity ent, double energy) {
-        if (!(ent instanceof LivingEntity))
-            return;
-        LivingEntity player = (LivingEntity) ent;
-        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 0));
+    public void apply(LivingEntity ent, double energy) {
+        ent.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 0));
     }
 
     @Override
-    public void remove(Entity ent) {
-        if (!(ent instanceof LivingEntity))
-            return;
-        LivingEntity player = (LivingEntity) ent;
-        player.removePotionEffect(PotionEffectType.BLINDNESS);
+    public void remove(LivingEntity ent) {
+        ent.removePotionEffect(PotionEffectType.BLINDNESS);
     }
 
     @Override
